@@ -27,7 +27,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	@Autowired
 	private UserService userService;
 
-	private static final String[] excluded_urls = {
+	private static final String[] EXCLUDED_URLS = {
 			"/api/auth",
 			"/v3/api-docs",
 			"/swagger-ui"
@@ -63,6 +63,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String url = request.getRequestURI();
-	    return Stream.of(excluded_urls).anyMatch(x -> url.startsWith(x));
+	    return Stream.of(EXCLUDED_URLS).anyMatch(x -> url.startsWith(x));
 	 }
 }
