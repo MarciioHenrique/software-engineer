@@ -1,7 +1,6 @@
 package com.mirna.hospitalmanagementapi.unit.application.service.auth;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
-
 import com.mirna.hospitalmanagementapi.application.services.auth.AuthServiceImpl;
 import com.mirna.hospitalmanagementapi.domain.dtos.auth.UserDTO;
 import com.mirna.hospitalmanagementapi.domain.entities.auth.User;

@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mirna.hospitalmanagementapi.domain.enums.Specialty;
 import com.mirna.hospitalmanagementapi.domain.validators.consultation.constraints.ConsultationDateBusinessHours;
 import com.mirna.hospitalmanagementapi.domain.validators.consultation.constraints.ConsultationDateScheduledInAdvance;
-
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 

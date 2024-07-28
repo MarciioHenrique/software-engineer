@@ -1,7 +1,6 @@
 package com.mirna.hospitalmanagementapi.application.controllers;
 
 import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientPublicDataDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientUpdatedDataDTO;

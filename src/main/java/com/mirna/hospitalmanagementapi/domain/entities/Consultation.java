@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mirna.hospitalmanagementapi.domain.enums.ReasonCancellation;
-import com.mirna.hospitalmanagementapi.domain.enums.Specialty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

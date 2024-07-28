@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import com.mirna.hospitalmanagementapi.application.usecase.doctor.SaveDoctorUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.doctor.FindDoctorByIdUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.doctor.FindDoctorsUseCase;

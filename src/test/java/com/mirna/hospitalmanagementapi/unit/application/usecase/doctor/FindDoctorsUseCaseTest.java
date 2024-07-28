@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
-
 import com.mirna.hospitalmanagementapi.HospitalManagementApiApplication;
 import com.mirna.hospitalmanagementapi.application.usecase.doctor.FindDoctorsUseCase;
 import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;

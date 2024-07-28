@@ -2,7 +2,6 @@ package com.mirna.hospitalmanagementapi.application.usecase.patient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.mirna.hospitalmanagementapi.domain.entities.Patient;
 import com.mirna.hospitalmanagementapi.domain.repositories.PatientRepository;
 

@@ -1,8 +1,6 @@
 package com.mirna.hospitalmanagementapi.domain.entities;
 
 import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;
-import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorDTO;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;

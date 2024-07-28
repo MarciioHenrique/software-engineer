@@ -1,9 +1,7 @@
 package com.mirna.hospitalmanagementapi.application.services;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.mirna.hospitalmanagementapi.application.usecase.consultation.FindConsultationByDoctorAndDateUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.consultation.FindConsultationByIdUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.consultation.FindConsultationByPatientAndDateUseCase;

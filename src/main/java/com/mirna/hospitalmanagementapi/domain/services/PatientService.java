@@ -2,7 +2,6 @@ package com.mirna.hospitalmanagementapi.domain.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientPublicDataDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientUpdatedDataDTO;

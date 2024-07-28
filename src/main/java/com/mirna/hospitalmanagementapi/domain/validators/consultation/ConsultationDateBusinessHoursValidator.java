@@ -7,7 +7,6 @@ import com.mirna.hospitalmanagementapi.domain.validators.consultation.constraint
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import jakarta.validation.constraints.Future;
 
 public class ConsultationDateBusinessHoursValidator implements ConstraintValidator <ConsultationDateBusinessHours, LocalDateTime> {
 

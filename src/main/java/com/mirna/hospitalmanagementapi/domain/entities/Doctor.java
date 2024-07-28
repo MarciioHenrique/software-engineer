@@ -2,7 +2,6 @@ package com.mirna.hospitalmanagementapi.domain.entities;
 
 import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorDTO;
 import com.mirna.hospitalmanagementapi.domain.enums.Specialty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;

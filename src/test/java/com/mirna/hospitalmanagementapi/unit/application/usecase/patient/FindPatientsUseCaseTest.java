@@ -1,8 +1,6 @@
 package com.mirna.hospitalmanagementapi.unit.application.usecase.patient;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
-
 import com.mirna.hospitalmanagementapi.HospitalManagementApiApplication;
 import com.mirna.hospitalmanagementapi.application.usecase.patient.FindPatientsUseCase;
 import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;

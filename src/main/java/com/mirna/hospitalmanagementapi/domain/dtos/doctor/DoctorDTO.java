@@ -2,7 +2,6 @@ package com.mirna.hospitalmanagementapi.domain.dtos.doctor;
 
 import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;
 import com.mirna.hospitalmanagementapi.domain.enums.Specialty;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

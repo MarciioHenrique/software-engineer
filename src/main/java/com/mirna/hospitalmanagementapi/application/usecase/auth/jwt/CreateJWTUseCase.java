@@ -3,10 +3,8 @@ package com.mirna.hospitalmanagementapi.application.usecase.auth.jwt;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.mirna.hospitalmanagementapi.domain.entities.auth.User;

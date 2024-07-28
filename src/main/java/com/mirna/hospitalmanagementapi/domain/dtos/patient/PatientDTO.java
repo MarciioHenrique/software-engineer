@@ -1,7 +1,6 @@
 package com.mirna.hospitalmanagementapi.domain.dtos.patient;
 
 import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;
-
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

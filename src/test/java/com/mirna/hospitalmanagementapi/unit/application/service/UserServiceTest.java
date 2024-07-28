@@ -2,7 +2,6 @@ package com.mirna.hospitalmanagementapi.unit.application.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,13 +10,11 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
 import com.mirna.hospitalmanagementapi.HospitalManagementApiApplication;
 import com.mirna.hospitalmanagementapi.application.services.UserServiceImpl;
 import com.mirna.hospitalmanagementapi.domain.dtos.auth.UserDTO;
 import com.mirna.hospitalmanagementapi.domain.entities.auth.User;
 import com.mirna.hospitalmanagementapi.domain.repositories.auth.UserRepository;
-
 import jakarta.validation.ConstraintViolationException;
 
 /**

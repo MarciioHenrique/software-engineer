@@ -1,7 +1,5 @@
 package com.mirna.hospitalmanagementapi.domain.services;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

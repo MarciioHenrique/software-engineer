@@ -2,12 +2,9 @@ package com.mirna.hospitalmanagementapi.domain.validators.consultation;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-
 import com.mirna.hospitalmanagementapi.domain.validators.consultation.constraints.ConsultationDateScheduledInAdvance;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import jakarta.validation.constraints.Future;
 
 public class ConsultationDateScheduledInAdvanceValidator implements ConstraintValidator <ConsultationDateScheduledInAdvance, LocalDateTime> {
 

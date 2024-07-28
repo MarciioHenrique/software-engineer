@@ -1,7 +1,6 @@
 package com.mirna.hospitalmanagementapi.domain.services;
 
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.mirna.hospitalmanagementapi.domain.dtos.auth.UserDTO;
 import com.mirna.hospitalmanagementapi.domain.entities.auth.User;
 

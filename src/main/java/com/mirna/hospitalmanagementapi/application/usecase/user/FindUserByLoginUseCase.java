@@ -3,8 +3,6 @@ package com.mirna.hospitalmanagementapi.application.usecase.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import com.mirna.hospitalmanagementapi.domain.entities.Doctor;
 import com.mirna.hospitalmanagementapi.domain.repositories.auth.UserRepository;
 
 /**

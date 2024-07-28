@@ -2,7 +2,6 @@ package com.mirna.hospitalmanagementapi.application.services.auth.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.mirna.hospitalmanagementapi.application.usecase.auth.jwt.CreateJWTUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.auth.jwt.GetJWTSubjectUseCase;
 import com.mirna.hospitalmanagementapi.domain.entities.auth.User;

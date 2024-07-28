@@ -6,7 +6,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.mirna.hospitalmanagementapi.domain.dtos.auth.UserDTO;
 import com.mirna.hospitalmanagementapi.domain.entities.auth.User;
 import com.mirna.hospitalmanagementapi.domain.services.UserService;

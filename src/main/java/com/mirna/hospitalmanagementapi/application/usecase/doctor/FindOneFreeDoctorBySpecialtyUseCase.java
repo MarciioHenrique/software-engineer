@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.mirna.hospitalmanagementapi.domain.entities.Doctor;
 import com.mirna.hospitalmanagementapi.domain.enums.Specialty;
 import com.mirna.hospitalmanagementapi.domain.repositories.DoctorRepository;
