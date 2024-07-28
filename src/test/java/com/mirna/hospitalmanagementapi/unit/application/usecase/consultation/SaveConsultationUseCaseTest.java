@@ -3,7 +3,6 @@ package com.mirna.hospitalmanagementapi.unit.application.usecase.consultation;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

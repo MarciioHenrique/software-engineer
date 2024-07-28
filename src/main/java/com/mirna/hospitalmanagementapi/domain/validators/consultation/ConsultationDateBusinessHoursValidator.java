@@ -4,10 +4,8 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
 import com.mirna.hospitalmanagementapi.domain.validators.consultation.constraints.ConsultationDateBusinessHours;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import jakarta.validation.constraints.Future;
 
 public class ConsultationDateBusinessHoursValidator implements ConstraintValidator <ConsultationDateBusinessHours, LocalDateTime> {
 
@@ -23,12 +21,11 @@ public class ConsultationDateBusinessHoursValidator implements ConstraintValidat
 	
 	@Override
 	public boolean isValid(LocalDateTime value, ConstraintValidatorContext context) {
-		
-		if (value.getDayOfWeek().equals(DayOfWeek.SUNDAY) 
-				|| value.getHour() < businessHourStart 
-				|| value.getHour() > businessHourEnd) return false;
-		
-		return true;
+
+		return !(value.getDayOfWeek().equals(DayOfWeek.SUNDAY) 
+			|| value.getHour() < businessHourStart 
+			|| value.getHour() > businessHourEnd);
+
 	}
 
 }

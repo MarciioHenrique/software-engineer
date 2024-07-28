@@ -7,7 +7,6 @@ import com.mirna.hospitalmanagementapi.domain.validators.consultation.constraint
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import jakarta.validation.constraints.Future;
 
 public class ConsultationDateScheduledInAdvanceValidator implements ConstraintValidator <ConsultationDateScheduledInAdvance, LocalDateTime> {
 
@@ -17,9 +16,7 @@ public class ConsultationDateScheduledInAdvanceValidator implements ConstraintVa
 		
 		long diff = Duration.between(now, value).toMinutes();
 		
-		if (diff < 30L) return false;
-		
-		return true;
+		return diff >= 30L;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.mirna.hospitalmanagementapi.application.services;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -8,11 +9,9 @@ import org.springframework.stereotype.Service;
 import com.mirna.hospitalmanagementapi.application.usecase.patient.FindPatientByIdUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.patient.FindPatientsUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.patient.SavePatientUseCase;
-import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientPublicDataDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientUpdatedDataDTO;
-import com.mirna.hospitalmanagementapi.domain.entities.Address;
 import com.mirna.hospitalmanagementapi.domain.entities.Patient;
 import com.mirna.hospitalmanagementapi.domain.services.PatientService;
 
@@ -64,8 +63,8 @@ public class PatientServiceImpl implements PatientService {
 	public Patient findPatientById(Long id) throws EntityNotFoundException {
 		Patient patient = this.findPatientById.execute(id);
 		
-		if (patient == null) throw new EntityNotFoundException("No existing patient with this id");
-		
+		this.verifyIsPatientNull(patient);
+ 
 		return patient;
 	}
 
@@ -92,51 +91,12 @@ public class PatientServiceImpl implements PatientService {
 		
 		Patient patient = findPatientById.execute(patientUpdatedDataDTO.id());
 		
-		if (patient == null) throw new EntityNotFoundException("No existing patient with this id");
+		this.verifyIsPatientNull(patient);
+
+		patient = this.patientDTOValidation(patientUpdatedDataDTO);
 		
-		if (patientUpdatedDataDTO.name() != null) patient.setName(patientUpdatedDataDTO.name());
-		
-		if (patientUpdatedDataDTO.telephone() != null) patient.setTelephone(patientUpdatedDataDTO.telephone());
-		
-		if (patientUpdatedDataDTO.address() != null) {
+		return savePatient.execute(patient);
 
-			AddressDTO addressUpdatedDataDTO = patientUpdatedDataDTO.address();
-			Address address = patient.getAddress();
-
-			if (addressUpdatedDataDTO.street() != null) {
-				address.setStreet(addressUpdatedDataDTO.street());
-			}
-
-			if (addressUpdatedDataDTO.neighborhood() != null) {
-				address.setNeighborhood(addressUpdatedDataDTO.neighborhood());
-			}
-
-			if (addressUpdatedDataDTO.city() != null) {
-				address.setCity(addressUpdatedDataDTO.city());
-			}
-
-			if (addressUpdatedDataDTO.zipCode() != null) {
-				address.setZipCode(addressUpdatedDataDTO.zipCode());
-			}
-
-			if (addressUpdatedDataDTO.state() != null) {
-				address.setState(addressUpdatedDataDTO.state());
-			}
-
-			if (addressUpdatedDataDTO.additionalDetails() != null) {
-				address.setAdditionalDetails(addressUpdatedDataDTO.additionalDetails());
-			}
-
-			if (addressUpdatedDataDTO.houseNumber() != null) {
-				address.setHouseNumber(addressUpdatedDataDTO.houseNumber());
-			}
-
-			patient.setAddress(address);
-		}
-
-		patient = savePatient.execute(patient);
-		
-		return patient;
 	}
 
 	/**
@@ -152,13 +112,31 @@ public class PatientServiceImpl implements PatientService {
 	public Patient deactivatePatient(Long id) throws EntityNotFoundException {
 		Patient patient = findPatientById.execute(id);
 
-		if (patient == null) {
-			throw new EntityNotFoundException("No existing patient with this id");
-		}
-		
+		this.verifyIsPatientNull(patient);
+		 
 		patient.setActive(false);
 
 		return savePatient.execute(patient);
+	}
+
+	private boolean isPatientNull(Patient patient){
+
+		return patient == null;
+
+	}
+
+	private Patient patientDTOValidation(PatientUpdatedDataDTO patientDTO){
+
+		var patient = new Patient();
+		BeanUtils.copyProperties(patient, patientDTO);
+
+		return patient;
+	}
+
+	private void verifyIsPatientNull(Patient patient)  throws EntityNotFoundException{
+		if (this.isPatientNull(patient)) {
+			throw new EntityNotFoundException("No existing patient with this id");
+		}
 	}
 
 }

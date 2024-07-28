@@ -36,21 +36,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 		
 		String authorizationHeader = request.getHeader("Authorization");
 		
-		if (authorizationHeader.isBlank() || !authorizationHeader.startsWith("Bearer ")) {
-			throw new AuthenticationException("Authorization token is null or invalid");
-		}
+		this.verifyAuthorizationToken(authorizationHeader);
 	    
 		String token = authorizationHeader.replace("Bearer ", "").trim();
-		System.out.println(token);
 		
 		String tokenSubject = tokenService.getTokenSubject(token);
-		System.out.println(tokenSubject);
 		
 		User authenticatedUser = (User) userService.findUserByLogin(tokenSubject);
-		System.out.println(authenticatedUser);
 		
 		Authentication auth = new UsernamePasswordAuthenticationToken(authenticatedUser, null, authenticatedUser.getAuthorities());
-		System.out.println(auth);
 		
 		SecurityContextHolder.getContext().setAuthentication(auth);
 		
@@ -60,7 +54,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String url = request.getRequestURI();
-	    return Stream.of(excluded_urls).anyMatch(x -> url.startsWith(x));
+	    return Stream.of(excluded_urls).anyMatch(url::startsWith);
 	 }
 	
 	private static final String[] excluded_urls = {
@@ -68,5 +62,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			"/v3/api-docs",
 			"/swagger-ui"
     };
+
+	private boolean isAuthorizationTokenValid(String authorizationHeader){
+		return authorizationHeader.isBlank() || !authorizationHeader.startsWith("Bearer ");
+	}
+
+	private void verifyAuthorizationToken(String authorizationHeader) throws AuthenticationException{
+		if (this.isAuthorizationTokenValid(authorizationHeader)) {
+			throw new AuthenticationException("Authorization token is null or invalid");
+		}	
+	}
 
 }
