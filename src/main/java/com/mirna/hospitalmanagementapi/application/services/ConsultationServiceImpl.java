@@ -1,5 +1,6 @@
 package com.mirna.hospitalmanagementapi.application.services;
 
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mirna.hospitalmanagementapi.application.usecase.consultation.FindConsultationByDoctorAndDateUseCase;
@@ -11,9 +12,11 @@ import com.mirna.hospitalmanagementapi.application.usecase.doctor.FindOneFreeDoc
 import com.mirna.hospitalmanagementapi.application.usecase.patient.FindPatientByIdUseCase;
 import com.mirna.hospitalmanagementapi.domain.dtos.consultation.ConsultationCanceledDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.consultation.ConsultationDTO;
+import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorVerificationDTO;
 import com.mirna.hospitalmanagementapi.domain.entities.Consultation;
 import com.mirna.hospitalmanagementapi.domain.entities.Doctor;
 import com.mirna.hospitalmanagementapi.domain.entities.Patient;
+import com.mirna.hospitalmanagementapi.domain.enums.Specialty;
 import com.mirna.hospitalmanagementapi.domain.exceptions.ConsultationValidationException;
 import com.mirna.hospitalmanagementapi.domain.services.ConsultationService;
 
@@ -63,34 +66,13 @@ public class ConsultationServiceImpl implements ConsultationService {
 
 		Patient patient = findPatientById.execute(consultationDTO.patientId());
 
-		if (!patient.getActive())
-			throw new ConsultationValidationException("This patient is not active");
+		this.isPatientUnactive(patient);
 
-		if (findConsultationByPatientAndDate.execute(patient.getId(), consultationDTO.consultationDate()) != null)
-			throw new ConsultationValidationException("This patient is not free on this date");
+		this.isPatientFreeForThisDate(patient, consultationDTO.consultationDate());
 
-		Doctor doctor = null;
-
-		if (consultationDTO.doctorId() != null) {
-
-			doctor = findDoctorById.execute(consultationDTO.doctorId());
-
-			if (!doctor.getActive())
-				throw new ConsultationValidationException("This doctor is not active");
-
-			if (findConsultationByDoctorAndDate.execute(doctor.getId(), consultationDTO.consultationDate()) != null)
-				throw new ConsultationValidationException("This doctor is not free on this date");
-
-		} else if (consultationDTO.specialty() != null) {
-
-			doctor = findOneFreeDoctorBySpecialty.execute(consultationDTO.specialty(),
-					consultationDTO.consultationDate());
-
-			if (doctor == null) throw new ConsultationValidationException("There is no free doctor for this date with this specialty");
-			
-		} else {
-			throw new ConsultationValidationException("At least the specialty or doctor ID must be filled in");
-		}
+		Doctor doctor = this.doctorVerification(
+			new DoctorVerificationDTO(consultationDTO.doctorId(), consultationDTO.consultationDate(), consultationDTO.specialty())
+		);
 
 		Consultation consultation = new Consultation(patient, doctor, consultationDTO.consultationDate());
 
@@ -107,7 +89,7 @@ public class ConsultationServiceImpl implements ConsultationService {
 	public Consultation findConsultationById(Long id) {
 		Consultation consultation = findConsultationById.execute(id);
 
-		if (consultation == null)
+		if (this.isConsultationNull(consultation))
 			throw new EntityNotFoundException("No existing consultation with this id");
 		
 		return consultation;
@@ -126,6 +108,109 @@ public class ConsultationServiceImpl implements ConsultationService {
 		consultation.setReasonCancellation(consultationCanceledDTO.reasonCancellation());
 
 		return saveConsultation.execute(consultation);
+	}
+
+	private boolean isConsultationNull(Consultation consultation){
+
+		return consultation == null;
+
+	}
+
+
+	public void isPatientUnactive(Patient patient) throws ConsultationValidationException{
+
+		if(!patient.isPatientActive()) this.errorMessageOnNullableDoctor("This patient is not active");
+	
+	}
+
+	public void isPatientFreeForThisDate(Patient patient, LocalDateTime consultationDate) throws ConsultationValidationException{
+
+		if (findConsultationByPatientAndDate.execute(patient.getId(), consultationDate) != null)
+			this.errorMessageOnNullableDoctor("This patient is not free on this date");
+	}
+
+	public Doctor doctorVerification(DoctorVerificationDTO doctorVerificationRecord) throws ConsultationValidationException{
+
+		var doctorId = doctorVerificationRecord.doctorId();
+		var specialty = doctorVerificationRecord.specialty();
+		var consultationDate = doctorVerificationRecord.consultationDate();
+
+		this.doctorNullableVerify(doctorId, specialty);
+
+		var doctor = this.findFreeDoctorForConsultationById(doctorId, consultationDate);
+
+		 if (doctor != null) {
+
+			return doctor;
+			
+		}
+
+		return this.findFreeDoctorForConsultationBySpecialty(specialty, consultationDate);
+
+
+	}
+
+	private void doctorNullableVerify(Long doctorId, Specialty specialty) throws ConsultationValidationException{
+		if(this.isDoctorNull(doctorId, specialty)){
+			
+			this.errorMessageOnNullableDoctor("At least the specialty or doctor ID must be filled in");
+
+		}
+	}
+
+	private boolean isDoctorNull(Long doctorId, Specialty specialty){
+		return doctorId == null && specialty == null;
+	}
+
+	private Doctor findFreeDoctorForConsultationById(Long doctorId, LocalDateTime consultationDate ) throws ConsultationValidationException{
+		
+		if (doctorId == null) {
+
+			this.errorMessageOnNullableDoctor("No doctor's found");
+		
+		}
+
+		var doctor = findDoctorById.execute(doctorId);
+
+		this.isDoctorActive(doctor);
+
+		this.isDoctorFreeForThisDate(doctor, consultationDate);
+
+		return doctor;
+
+	}
+
+	private Doctor findFreeDoctorForConsultationBySpecialty(Specialty specialty, LocalDateTime consultationDate ) throws ConsultationValidationException{
+		
+		if (specialty == null) {
+
+			this.errorMessageOnNullableDoctor("No specialties found");
+		
+		}
+
+		var doctor = findOneFreeDoctorBySpecialty.execute(specialty, consultationDate);
+
+		if (doctor == null) 
+			this.errorMessageOnNullableDoctor("There is no free doctor for this date with this specialty");
+
+		return doctor;
+			
+	}
+
+
+	private void isDoctorActive(Doctor doctor) throws ConsultationValidationException{
+		if (!doctor.getActive()){
+			this.errorMessageOnNullableDoctor("This doctor is not active");	}
+	}
+
+	private void isDoctorFreeForThisDate(Doctor doctor, LocalDateTime consultationDate) throws ConsultationValidationException{
+		if (findConsultationByDoctorAndDate.execute(doctor.getId(), consultationDate) != null)
+			this.errorMessageOnNullableDoctor("This doctor is not free on this date");
+	}
+
+	public void errorMessageOnNullableDoctor(String message) throws ConsultationValidationException{
+		throw new ConsultationValidationException(message);
+
 	}
 
 }

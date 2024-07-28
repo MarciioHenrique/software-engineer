@@ -178,4 +178,8 @@ public class Patient {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
+	public boolean isPatientActive(){
+		return this.active;
+	}
 }

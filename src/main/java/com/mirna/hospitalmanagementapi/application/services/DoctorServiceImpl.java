@@ -1,5 +1,6 @@
 package com.mirna.hospitalmanagementapi.application.services;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,8 +12,10 @@ import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorPublicDataDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorUpdatedDataDTO;
+import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientUpdatedDataDTO;
 import com.mirna.hospitalmanagementapi.domain.entities.Address;
 import com.mirna.hospitalmanagementapi.domain.entities.Doctor;
+import com.mirna.hospitalmanagementapi.domain.entities.Patient;
 import com.mirna.hospitalmanagementapi.domain.services.DoctorService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -66,7 +69,7 @@ public class DoctorServiceImpl implements DoctorService {
 	public Doctor findDoctorById(Long id) throws EntityNotFoundException {
 		Doctor doctor = findDoctorById.execute(id);
 		
-		if (doctor == null) throw new EntityNotFoundException("No existing doctor with this id");
+		this.verifyIsDoctorNull(doctor);
 		
 		return doctor;
 	}
@@ -95,58 +98,12 @@ public class DoctorServiceImpl implements DoctorService {
 	public Doctor updateDoctor(DoctorUpdatedDataDTO doctorUpdatedDataDTO) throws EntityNotFoundException {
 		Doctor doctor = findDoctorById.execute(doctorUpdatedDataDTO.id());
 		
-		if (doctor == null) {
-		 throw new EntityNotFoundException("No existing doctor with this id");	
-		}
+		this.verifyIsDoctorNull(doctor);
 			
-		if (doctorUpdatedDataDTO.name() != null) {
-			doctor.setName(doctorUpdatedDataDTO.name());
-		}
+		doctor = this.doctorDTOValidation(doctorUpdatedDataDTO);
 		
-		if (doctorUpdatedDataDTO.telephone() != null) {
-			doctor.setName(doctorUpdatedDataDTO.telephone());
-		}
-		
-		if (doctorUpdatedDataDTO.address() != null) {
-			
-			AddressDTO addressUpdatedDataDTO = doctorUpdatedDataDTO.address();
-			Address address = doctor.getAddress();
-			
-			if (addressUpdatedDataDTO.street() != null) {
-				address.setStreet(addressUpdatedDataDTO.street());
-			}
-			
-			if (addressUpdatedDataDTO.neighborhood() != null) {
-				address.setNeighborhood(addressUpdatedDataDTO.neighborhood());
-			}
-			
-			if (addressUpdatedDataDTO.city() != null) {
-				address.setCity(addressUpdatedDataDTO.city());
-			}
-			
-			if (addressUpdatedDataDTO.zipCode() != null) {
-				address.setZipCode(addressUpdatedDataDTO.zipCode());
-			}
-			
-			if (addressUpdatedDataDTO.state() != null) {
-				address.setState(addressUpdatedDataDTO.state());
-			}
-			
-			if (addressUpdatedDataDTO.additionalDetails() != null) {
-				address.setAdditionalDetails(addressUpdatedDataDTO.additionalDetails());
-			}
-			
-			if (addressUpdatedDataDTO.houseNumber() != null) {
-				address.setHouseNumber(addressUpdatedDataDTO.houseNumber());
-			}
-			
-			doctor.setAddress(address);
-		}
-		
-		doctor = saveDoctor.execute(doctor);
-		
-		return doctor;
-		
+		return saveDoctor.execute(doctor);
+				
 	}
 
     /**
@@ -161,13 +118,33 @@ public class DoctorServiceImpl implements DoctorService {
 	public Doctor deactivateDoctor(Long id) throws EntityNotFoundException {
 		Doctor doctor = findDoctorById.execute(id);
 
-		if (doctor == null) {
-			throw new EntityNotFoundException("No existing doctor with this id");
-		}
+		this.verifyIsDoctorNull(doctor);
 			
 		doctor.setActive(false);
 
 		return saveDoctor.execute(doctor);
 	}
+
+	private boolean isDoctorNull(Doctor doctor){
+
+		return doctor == null;
+
+	}
+
+	private Doctor doctorDTOValidation(DoctorUpdatedDataDTO doctorDTO){
+
+		var doctor = new Doctor();
+		BeanUtils.copyProperties(doctor, doctorDTO);
+
+		return doctor;
+	}
+
+	private void verifyIsDoctorNull(Doctor doctor) throws EntityNotFoundException{
+		if (this.isDoctorNull(doctor)) {
+			throw new EntityNotFoundException("No existing doctor with this id");
+		}
+	}
+
+	
 
 }

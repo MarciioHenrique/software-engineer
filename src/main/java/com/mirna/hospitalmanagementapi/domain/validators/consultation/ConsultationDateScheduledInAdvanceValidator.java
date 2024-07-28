@@ -14,9 +14,7 @@ public class ConsultationDateScheduledInAdvanceValidator implements ConstraintVa
 		
 		long diff = Duration.between(now, value).toMinutes();
 		
-		if (diff < 30L) return false;
-		
-		return true;
+		return diff >= 30L;
 	}
 
 }

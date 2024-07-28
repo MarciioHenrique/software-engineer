@@ -65,7 +65,7 @@ public class Doctor {
 
 	@NotNull(message="active cannot be null")
 	@Column(name="active")
-	private Boolean active;
+	private boolean active;
 	
 	@NotNull(message="address cannot be null")
 	@Embedded
@@ -172,7 +172,7 @@ public class Doctor {
 	  * Returns the active
 	 * @return A boolean value that states whether the doctor is active in the system
 	 */
-	public Boolean getActive() {
+	public boolean getActive() {
 		return active;
 	}
 
@@ -180,7 +180,7 @@ public class Doctor {
 	 * Sets the active
 	 * @param active Must not be null. Starts with the true value by default
 	 */
-	public void setActive(Boolean active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 
@@ -200,5 +200,6 @@ public class Doctor {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
+
 	
 }
