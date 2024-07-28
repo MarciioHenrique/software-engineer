@@ -15,7 +15,7 @@ import com.mirna.hospitalmanagementapi.domain.repositories.ConsultationRepositor
 public class SaveConsultationUseCase {
 
 	@Autowired
-	private ConsultationRepository consultationRepository;
+	private ConsultationRepository repository;
 	
 	/**
 	 * Executes the save method from Consultation repository
@@ -25,6 +25,6 @@ public class SaveConsultationUseCase {
 	 *
 	 */
 	public Consultation execute(Consultation consultation) {
-		return this.consultationRepository.save(consultation);
+		return this.repository.save(consultation);
 	}
 }

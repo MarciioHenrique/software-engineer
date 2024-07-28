@@ -17,7 +17,7 @@ import com.mirna.hospitalmanagementapi.domain.repositories.ConsultationRepositor
 public class FindConsultationByPatientAndDateUseCase {
 
 	@Autowired
-	private ConsultationRepository consultationRepository;
+	private ConsultationRepository repository;
 	
 	/**
 	 * Executes the findConsultationByPatientAndDate method from Consultation repository
@@ -28,6 +28,6 @@ public class FindConsultationByPatientAndDateUseCase {
 	 *
 	 */
 	public Consultation execute(Long patientId, LocalDateTime consultationDate) {
-		return this.consultationRepository.findConsultationByPatientAndDate(patientId, consultationDate);
+		return this.repository.findConsultationByPatientAndDate(patientId, consultationDate);
 	}
 }

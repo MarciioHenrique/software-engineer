@@ -15,17 +15,17 @@ import com.mirna.hospitalmanagementapi.domain.repositories.ConsultationRepositor
 public class FindConsultationByIdUseCase {
 
 	@Autowired
-	private ConsultationRepository consultationRepository;
+	private ConsultationRepository repository;
 	
 	/**
 	 * Executes the findById method from Consultation repository
 	 * 
-	 * @param id A long representing the consultation's unique identifier
+	 * @param consultationId A long representing the consultation's unique identifier
 	 * 
 	 * @return The corresponding consultation if successful, or null if it is non-existent
 	 *
 	 */
-	public Consultation execute(Long id) {
-		return this.consultationRepository.findById(id).orElse(null);
+	public Consultation execute(Long consultationId) {
+		return this.repository.findById(consultationId).orElse(null);
 	}
 }

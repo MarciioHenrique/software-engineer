@@ -65,15 +65,15 @@ public class DoctorController {
 	/**
 	 * Get method to receive a Doctor record by the provided ID
 	 *
-	 * @param id A long representing the doctor's unique identifier
+	 * @param doctorId A long representing the doctor's unique identifier
 	 * 
 	 * @return A response entity containing the corresponding doctor if successful, or
 	 * a 400-level error if it is non-existent
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> getDoctor(@PathVariable Long id) {
+	public ResponseEntity<Object> getDoctor(@PathVariable Long doctorId) {
 	
-		Doctor doctor = doctorService.findDoctorById(id);
+		Doctor doctor = doctorService.findDoctorById(doctorId);
 		
 		return ResponseEntity.ok(doctor);
 	}
@@ -112,13 +112,13 @@ public class DoctorController {
 	/**
 	 * Delete method to deactivate a existing doctor record by provided ID
 	 *
-	 * @param id Path variable that represents the doctor's unique identifier
+	 * @param doctorId Path variable that represents the doctor's unique identifier
 	 * 
 	 * @return A response entity containing the deactivated doctor if successful
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deleteDoctor(@PathVariable Long id) {
-		Doctor doctor = doctorService.deactivateDoctor(id);
+	public ResponseEntity<Object> deleteDoctor(@PathVariable Long doctorId) {
+		Doctor doctor = doctorService.deactivateDoctor(doctorId);
 		
 		return ResponseEntity.ok(doctor);
 	}

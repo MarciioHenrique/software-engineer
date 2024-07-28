@@ -37,13 +37,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String authorizationHeader = request.getHeader("Authorization");
+		String authHeader = request.getHeader("Authorization");
 		
-		if (authorizationHeader.isBlank() || !authorizationHeader.startsWith("Bearer ")) {
+		if (authHeader.isBlank() || !authHeader.startsWith("Bearer ")) {
 			throw new AuthenticationException("Authorization token is null or invalid");
 		}
 	    
-		String token = authorizationHeader.replace("Bearer ", "").trim();
+		String token = authHeader.replace("Bearer ", "").trim();
 		System.out.println(token);
 		
 		String tokenSubject = tokenService.getTokenSubject(token);

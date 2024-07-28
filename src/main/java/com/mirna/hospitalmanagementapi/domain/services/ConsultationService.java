@@ -19,10 +19,10 @@ public interface ConsultationService {
 	/**
    	* Finds a stored consultation by id.
    	* 
-   	* @param id A long representing the consultation's unique identifier
+   	* @param consultationId A long representing the consultation's unique identifier
    	* @return The corresponding consultation if successful, or null if it is non-existent.
    	*/
-	public Consultation findConsultationById(Long id);
+	public Consultation findConsultationById(Long consultationId);
 	
 	/**
 	 * Cancels and updates an existing query in the repository
