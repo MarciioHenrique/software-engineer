@@ -1,21 +1,24 @@
 package com.mirna.hospitalmanagementapi.application.services;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.mirna.hospitalmanagementapi.application.usecase.doctor.SaveDoctorUseCase;
+import com.mirna.hospitalmanagementapi.application.usecase.consultation.FindConsultationByDoctorAndDateUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.doctor.FindDoctorByIdUseCase;
 import com.mirna.hospitalmanagementapi.application.usecase.doctor.FindDoctorsUseCase;
-import com.mirna.hospitalmanagementapi.domain.dtos.AddressDTO;
+import com.mirna.hospitalmanagementapi.application.usecase.doctor.FindOneFreeDoctorBySpecialtyUseCase;
 import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorPublicDataDTO;
 import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorUpdatedDataDTO;
-import com.mirna.hospitalmanagementapi.domain.dtos.patient.PatientUpdatedDataDTO;
-import com.mirna.hospitalmanagementapi.domain.entities.Address;
+import com.mirna.hospitalmanagementapi.domain.dtos.doctor.DoctorVerificationDTO;
 import com.mirna.hospitalmanagementapi.domain.entities.Doctor;
-import com.mirna.hospitalmanagementapi.domain.entities.Patient;
+import com.mirna.hospitalmanagementapi.domain.enums.Specialty;
+import com.mirna.hospitalmanagementapi.domain.exceptions.ConsultationValidationException;
 import com.mirna.hospitalmanagementapi.domain.services.DoctorService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -40,6 +43,12 @@ public class DoctorServiceImpl implements DoctorService {
 	
 	@Autowired
 	private FindDoctorByIdUseCase findDoctorById;
+
+	@Autowired
+	private FindConsultationByDoctorAndDateUseCase findConsultationByDoctorAndDate;
+
+	@Autowired
+	private FindOneFreeDoctorBySpecialtyUseCase findOneFreeDoctorBySpecialty;
 	
 	/**
 	 * Adds a new doctor to the database.
@@ -125,6 +134,26 @@ public class DoctorServiceImpl implements DoctorService {
 		return saveDoctor.execute(doctor);
 	}
 
+	public Doctor verifyAvailableDoctor(DoctorVerificationDTO doctorVerificationRecord) throws ConsultationValidationException{
+
+		var doctorId = doctorVerificationRecord.doctorId();
+		var specialty = doctorVerificationRecord.specialty();
+		var consultationDate = doctorVerificationRecord.consultationDate();
+
+		this.doctorNullableVerify(doctorId, specialty);
+
+		var doctor = this.findFreeDoctorForConsultationById(doctorId, consultationDate);
+
+		 if (doctor != null) {
+
+			return doctor;
+			
+		}
+
+		return this.findFreeDoctorForConsultationBySpecialty(specialty, consultationDate);
+
+	}
+
 	private boolean isDoctorNull(Doctor doctor){
 
 		return doctor == null;
@@ -144,6 +173,67 @@ public class DoctorServiceImpl implements DoctorService {
 			throw new EntityNotFoundException("No existing doctor with this id");
 		}
 	}
+
+	public Doctor findFreeDoctorForConsultationById(Long doctorId, LocalDateTime consultationDate ) throws ConsultationValidationException{
+		
+		if (doctorId == null) {
+
+			throw new ConsultationValidationException("No doctor's found");
+		
+		}
+
+		var doctor = findDoctorById.execute(doctorId);
+
+		this.isDoctorActive(doctor);
+
+		this.isDoctorFreeForThisDate(doctor, consultationDate);
+
+		return doctor;
+
+	}
+
+	private void isDoctorActive(Doctor doctor) throws EntityNotFoundException{
+		if (!doctor.getActive()){
+			throw new EntityNotFoundException("This doctor is not active");	}
+	}
+
+	private void isDoctorFreeForThisDate(Doctor doctor, LocalDateTime consultationDate) throws ConsultationValidationException{
+		if (findConsultationByDoctorAndDate.execute(doctor.getId(), consultationDate) != null)
+			throw new ConsultationValidationException("This doctor is not free on this date");
+	}
+
+	private Doctor findFreeDoctorForConsultationBySpecialty(Specialty specialty, LocalDateTime consultationDate ) throws ConsultationValidationException{
+		
+		if (specialty == null) {
+
+			throw new ConsultationValidationException("No specialties found");
+		
+		}
+
+		var doctor = findOneFreeDoctorBySpecialty.execute(specialty, consultationDate);
+
+		if (doctor == null) 
+			throw new ConsultationValidationException("There is no free doctor for this date with this specialty");
+
+		return doctor;
+			
+	}
+
+
+	private void doctorNullableVerify(Long doctorId, Specialty specialty) throws ConsultationValidationException{
+		if(this.isDoctorNull(doctorId, specialty)){
+			
+			throw new ConsultationValidationException("At least the specialty or doctor ID must be filled in");
+
+		}
+	}
+
+	private boolean isDoctorNull(Long doctorId, Specialty specialty){
+		return doctorId == null && specialty == null;
+	}
+
+
+
 
 	
 
