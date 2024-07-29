@@ -144,13 +144,11 @@ public class DoctorServiceImpl implements DoctorService {
 
 		var doctor = this.findFreeDoctorForConsultationById(doctorId, consultationDate);
 
-		 if (doctor != null) {
-
+		if (!isDoctorNull(doctor)) {
 			return doctor;
-			
+		} else {
+			return this.findFreeDoctorForConsultationBySpecialty(specialty, consultationDate);
 		}
-
-		return this.findFreeDoctorForConsultationBySpecialty(specialty, consultationDate);
 
 	}
 
@@ -193,7 +191,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	private void isDoctorActive(Doctor doctor) throws EntityNotFoundException{
-		if (!doctor.getActive()){
+		if (!doctor.isActive()){
 			throw new EntityNotFoundException("This doctor is not active");	}
 	}
 

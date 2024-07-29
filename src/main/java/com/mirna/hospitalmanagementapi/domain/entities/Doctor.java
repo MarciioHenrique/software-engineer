@@ -172,7 +172,7 @@ public class Doctor {
 	  * Returns the active
 	 * @return A boolean value that states whether the doctor is active in the system
 	 */
-	public boolean getActive() {
+	public boolean isActive() {
 		return active;
 	}
 

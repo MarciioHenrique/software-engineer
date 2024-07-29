@@ -144,6 +144,6 @@ public class DoctorServiceTest {
 		
 		Doctor doctor = doctorService.deactivateDoctor(id);
 		
-		assertFalse(doctor.getActive());
+		assertFalse(doctor.isActive());
 	}
 }
