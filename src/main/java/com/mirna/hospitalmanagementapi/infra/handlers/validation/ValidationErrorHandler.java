@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -40,7 +42,7 @@ public class ValidationErrorHandler {
 			validationErrors.add(validationError);
 		}
 		
-		Map<String, Object> body = new HashMap<>();
+		Map<String, Object> body = new ConcurrentHashMap<>();
 		body.put("errors", validationErrors);
 
 		return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
