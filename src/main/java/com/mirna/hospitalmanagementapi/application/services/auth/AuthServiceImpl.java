@@ -55,9 +55,9 @@ public class AuthServiceImpl implements AuthService {
 	public User register(UserDTO userDTO) {
 		
 		String encodedPassword = passwordEncoder.encode(userDTO.password());
-		userDTO = new UserDTO(userDTO.login(), encodedPassword);
+		UserDTO newUser = new UserDTO(userDTO.login(), encodedPassword);
 		
-		return this.userService.addUser(userDTO);
+		return this.userService.addUser(newUser);
 	}
 	
 }
