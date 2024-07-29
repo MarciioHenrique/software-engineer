@@ -25,6 +25,30 @@ import jakarta.validation.constraints.NotNull;
 @Table(name="consultations")
 @Entity(name="Consultation")
 public class Consultation {
+
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@NotNull(message="consultationDate cannot be null")
+	@Column(name="consultation_date")
+	private LocalDateTime consultationDate;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JoinColumn(name="patient_id")
+	private Patient patient;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JoinColumn(name="doctor_id")
+	private Doctor doctor;
+
+	@Column(name="canceled")
+	private boolean canceled;
+
+	@Column(name="reason_cancellation")
+	@Enumerated(EnumType.STRING)
+	private ReasonCancellation reasonCancellation;
 	
 	/**
 	* Constructor for class Consultation
@@ -40,30 +64,6 @@ public class Consultation {
 	}
 	
 	public Consultation() {}
-	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotNull(message="consultationDate cannot be null")
-	@Column(name="consultation_date")
-	private LocalDateTime consultationDate;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
-	@JoinColumn(name="patient_id")
-	private Patient patient;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
-	@JoinColumn(name="doctor_id")
-	private Doctor doctor;
-	
-	@Column(name="canceled")
-	private boolean canceled;
-	
-	@Column(name="reason_cancellation")
-	@Enumerated(EnumType.STRING)
-	private ReasonCancellation reasonCancellation;
 
 	/**
 	 *  Returns the consultation id.

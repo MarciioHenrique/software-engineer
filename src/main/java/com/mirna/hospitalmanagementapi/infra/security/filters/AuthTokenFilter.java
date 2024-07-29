@@ -26,16 +26,22 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	
 	@Autowired
 	private UserService userService;
+
+	private static final String[] EXCLUDED_URLS = {
+			"/api/auth",
+			"/v3/api-docs",
+			"/swagger-ui"
+	};
 	
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		
-		String authorizationHeader = request.getHeader("Authorization");
+		String authHeader = request.getHeader("Authorization");
 		
-		this.verifyAuthorizationToken(authorizationHeader);
+		this.verifyAuthorizationToken(authHeader);
 	    
-		String token = authorizationHeader.replace("Bearer ", "").trim();
+		String token = authHeader.replace("Bearer ", "").trim();
 		
 		String tokenSubject = tokenService.getTokenSubject(token);
 		
@@ -51,14 +57,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	@Override
 	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 		String url = request.getRequestURI();
-	    return Stream.of(excluded_urls).anyMatch(url::startsWith);
+		return Stream.of(EXCLUDED_URLS).anyMatch(url::startsWith);
 	 }
-	
-	private static final String[] excluded_urls = {
-			"/api/auth",
-			"/v3/api-docs",
-			"/swagger-ui"
-    };
 
 	private boolean isAuthorizationTokenValid(String authorizationHeader){
 		return authorizationHeader.isBlank() || !authorizationHeader.startsWith("Bearer ");
@@ -69,5 +69,4 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 			throw new AuthenticationException("Authorization token is null or invalid");
 		}	
 	}
-
 }

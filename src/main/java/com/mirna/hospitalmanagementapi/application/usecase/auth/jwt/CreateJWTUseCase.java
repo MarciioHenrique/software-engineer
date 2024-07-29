@@ -32,7 +32,7 @@ public class CreateJWTUseCase {
 		return JWT.create().withIssuer("Hospital-Management-API")
 				.withSubject(user.getLogin())
 				.withClaim("id", user.getId())
-				.withExpiresAt(_getExpirationDate())
+				.withExpiresAt(getExpirationDate())
 				.sign(algorithm);
 	}
 	
@@ -40,7 +40,7 @@ public class CreateJWTUseCase {
 	 * Gets an expiration date for the token based on 2 hours duration
 	 * @return Instant object containing the expiration date
 	 */
-	private Instant _getExpirationDate() {
+	private Instant getExpirationDate() {
 		return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
 	}
 }

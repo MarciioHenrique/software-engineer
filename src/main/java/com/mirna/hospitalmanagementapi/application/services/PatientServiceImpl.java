@@ -53,14 +53,14 @@ public class PatientServiceImpl implements PatientService {
 	/**
 	 * Finds a stored patient by id.
 	 * 
-	 * @param id A long representing the patient's unique identifier
+	 * @param patientId A long representing the patient's unique identifier
 	 * @return The corresponding patient if successful, or throws an EntityNotFoundException if it is
 	 *         non-existent.
 	 * @throws EntityNotFoundException When patient with id provided is non-existent   
 	 */
 	@Override
-	public Patient findPatientById(Long id) throws EntityNotFoundException {
-		Patient patient = this.findPatientById.execute(id);
+	public Patient findPatientById(Long patientId) throws EntityNotFoundException {
+		Patient patient = this.findPatientById.execute(patientId);
 		
 		this.verifyIsPatientNull(patient);
  
@@ -101,15 +101,15 @@ public class PatientServiceImpl implements PatientService {
 	/**
 	 * Deactivates an existing patient record by provided id
 	 * 
-	 * @param id Long that represents the patient's unique identifier
+	 * @param patientId Long that represents the patient's unique identifier
 	 * 
 	 * @return The deactivated patient if successful, or throws an
 	 *         EntityNotFoundException if it is non-existent.
 	 * @throws EntityNotFoundException When patient with id provided is non-existent
 	 */
 	@Override
-	public Patient deactivatePatient(Long id) throws EntityNotFoundException {
-		Patient patient = findPatientById.execute(id);
+	public Patient deactivatePatient(Long patientId) throws EntityNotFoundException {
+		Patient patient = findPatientById.execute(patientId);
 
 		this.verifyIsPatientNull(patient);
 		 

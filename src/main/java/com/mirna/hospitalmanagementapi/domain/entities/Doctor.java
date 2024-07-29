@@ -23,6 +23,37 @@ import jakarta.validation.constraints.NotNull;
 @Entity(name="Doctor")
 public class Doctor {
 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@NotBlank(message="name cannot be blank")
+	@Column(name="name")
+	private String name;
+
+	@NotBlank(message="email cannot be blank")
+	@Column(name="email")
+	private String email;
+
+	@NotBlank(message="crm cannot be blank")
+	@Column(name="crm", length = 6)
+	private String crm;
+
+	@NotBlank(message="telephone cannot be blank")
+	@Column(name="telephone")
+	private String telephone;
+
+	@NotNull(message="specialty cannot be null")
+	@Enumerated(EnumType.STRING)
+	private Specialty specialty;
+
+	@NotNull(message="active cannot be null")
+	@Column(name="active")
+	private Boolean active;
+
+	@NotNull(message="address cannot be null")
+	@Embedded
+	private Address address;
+
 	/**
 	* Constructor for class Doctor
 	* @param doctorDTO  Data transfer object containing Doctor entity information
@@ -39,37 +70,6 @@ public class Doctor {
 	}
 	
 	public Doctor(){}
-
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank(message="name cannot be blank")
-	@Column(name="name")
-	private String name;
-	
-	@NotBlank(message="email cannot be blank")
-	@Column(name="email")
-	private String email;
-	
-	@NotBlank(message="crm cannot be blank")
-	@Column(name="crm", length = 6)
-	private String crm;
-	
-	@NotBlank(message="telephone cannot be blank")
-	@Column(name="telephone")
-	private String telephone;
-	
-	@NotNull(message="specialty cannot be null")
-	@Enumerated(EnumType.STRING)
-	private Specialty specialty;
-
-	@NotNull(message="active cannot be null")
-	@Column(name="active")
-	private boolean active;
-	
-	@NotNull(message="address cannot be null")
-	@Embedded
-	private Address address;
 
 	/**
 	 *  Returns the doctor id.

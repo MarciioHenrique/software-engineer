@@ -66,15 +66,15 @@ public class  PatientController {
 	/**
 	 * Get method to receive a Patient record by the provided ID
 	 *
-	 * @param id A long representing the patient's unique identifier
+	 * @param patientId A long representing the patient's unique identifier
 	 * 
 	 * @return A response entity containing the saved patient if successful, or
 	 * a 404 level error if it is non-existent
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> getPatient(@PathVariable Long id) {
+	public ResponseEntity<Object> getPatient(@PathVariable Long patientId) {
 	
-		Patient patient = patientService.findPatientById(id);
+		Patient patient = patientService.findPatientById(patientId);
 		
 		return ResponseEntity.ok(patient);
 	}
@@ -113,13 +113,13 @@ public class  PatientController {
 	/**
 	 * Delete method to deactivate an existing patient record by provided ID
 	 *
-	 * @param id Path variable that represents the patient's unique identifier
+	 * @param patientId Path variable that represents the patient's unique identifier
 	 * 
 	 * @return A response entity containing the deactivated patient if successful
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> deletePatient(@PathVariable Long id) {
-		Patient patient = patientService.deactivatePatient(id);
+	public ResponseEntity<Object> deletePatient(@PathVariable Long patientId) {
+		Patient patient = patientService.deactivatePatient(patientId);
 
 		return ResponseEntity.ok(patient);
 	}

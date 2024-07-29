@@ -28,10 +28,10 @@ public interface DoctorService {
 	/**
    	* Finds a stored doctor by id.
    	* 
-   	* @param id A long representing the doctor's unique identifier
+   	* @param doctorId A long representing the doctor's unique identifier
    	* @return The corresponding doctor if successful, or null if it is non-existent.
    	*/
-    public Doctor findDoctorById(Long id);
+    public Doctor findDoctorById(Long doctorId);
 	
     /**
 	 * Retrieves a paginated sublist of doctors.
@@ -52,9 +52,9 @@ public interface DoctorService {
     
     /**
      * Deactivates an existing doctor record by provided id
-     * @param id Long that represents the doctor's unique identifier
+     * @param doctorId Long that represents the doctor's unique identifier
 	 *  
 	 * @return The deactivated doctor if successful,  or null if there is an error.
 	 */
-    public Doctor deactivateDoctor(Long id);
+    public Doctor deactivateDoctor(Long doctorId);
 }

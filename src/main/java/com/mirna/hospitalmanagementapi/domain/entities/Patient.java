@@ -22,6 +22,34 @@ import jakarta.validation.constraints.Pattern;
 @Entity(name="Patient")
 public class Patient {
 
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@NotBlank(message="name cannot be blank")
+	@Column(name="name")
+	private String name;
+
+	@NotBlank(message="email cannot be blank")
+	@Column(name="email")
+	private String email;
+
+	@NotBlank(message="cpf cannot be blank")
+	@Pattern(regexp = "\\d{11}", message = "invalid format for cpf")
+	@Column(name="cpf")
+	private String cpf;
+
+	@NotBlank(message="telephone cannot be blank")
+	@Column(name="telephone")
+	private String telephone;
+
+	@NotNull(message="active cannot be null")
+	@Column(name="_active")
+	private Boolean active;
+
+	@NotNull(message="address cannot be null")
+	@Embedded
+	private Address address;
+
 	/**
 	* Constructor for class Patient
 	* @param patientDTO  Data transfer object containing Patient entity information
@@ -37,34 +65,6 @@ public class Patient {
 	}
 	
 	public Patient(){}
-
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@NotBlank(message="name cannot be blank")
-	@Column(name="name")
-	private String name;
-	
-	@NotBlank(message="email cannot be blank")
-	@Column(name="email")
-	private String email;
-	
-	@NotBlank(message="cpf cannot be blank")
-	@Pattern(regexp = "\\d{11}", message = "invalid format for cpf") 
-	@Column(name="cpf")
-	private String cpf;
-	
-	@NotBlank(message="telephone cannot be blank")
-	@Column(name="telephone")
-	private String telephone;
-
-	@NotNull(message="active cannot be null")
-	@Column(name="_active")
-	private Boolean active;
-	
-	@NotNull(message="address cannot be null")
-	@Embedded
-	private Address address;
 	
 	/**
 	 *  Returns the doctor id.

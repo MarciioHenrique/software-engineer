@@ -27,10 +27,10 @@ public interface PatientService {
     /**
 	* Finds a stored patient by id.
 	* 
-	* @param id A long representing the patient's unique identifier
+	* @param patientId A long representing the patient's unique identifier
 	* @return The corresponding patient if successful, or null if it is non-existent.
 	*/
-    public Patient findPatientById(Long id);
+    public Patient findPatientById(Long patientId);
     
     /**
 	 * Retrieves a paginated sublist of doctors.
@@ -51,9 +51,9 @@ public interface PatientService {
     
     /**
      * Deactivates an existing patient record by provided id
-     * @param id Long that represents the patient's unique identifier
+     * @param patientId Long that represents the patient's unique identifier
 	 *  
 	 * @return The deactivated patient if successful,  or null if there is an error.
 	 */
-    public Patient deactivatePatient(Long id);
+    public Patient deactivatePatient(Long patientId);
 }

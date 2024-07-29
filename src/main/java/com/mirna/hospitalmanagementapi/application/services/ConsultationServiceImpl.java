@@ -82,12 +82,12 @@ public class ConsultationServiceImpl implements ConsultationService {
 	/**
    	* Finds a stored consultation by id.
    	* 
-   	* @param id A long representing the consultation's unique identifier
+   	* @param consultationId A long representing the consultation's unique identifier
    	* @return The corresponding consultation if successful, or throws an exception if it is non-existent.
    	*/
 	@Override
-	public Consultation findConsultationById(Long id) {
-		Consultation consultation = findConsultationById.execute(id);
+	public Consultation findConsultationById(Long consultationId) {
+		Consultation consultation = findConsultationById.execute(consultationId);
 
 		if (this.isConsultationNull(consultation))
 			throw new EntityNotFoundException("No existing consultation with this id");

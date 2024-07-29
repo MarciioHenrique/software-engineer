@@ -58,7 +58,7 @@ public class DoctorServiceImpl implements DoctorService {
 	/**
 	 * Finds a stored doctor by id.
 	 * 
-	 * @param id A long representing the doctor's unique identifier
+	 * @param doctorId A long representing the doctor's unique identifier
 	 * 
 	 * @return The corresponding doctor if successful, or throws an
 	 *         EntityNotFoundException if it is non-existent.
@@ -66,8 +66,8 @@ public class DoctorServiceImpl implements DoctorService {
 	 * @throws EntityNotFoundException When doctor with id provided is non-existent
 	 */
 	@Override
-	public Doctor findDoctorById(Long id) throws EntityNotFoundException {
-		Doctor doctor = findDoctorById.execute(id);
+	public Doctor findDoctorById(Long doctorId) throws EntityNotFoundException {
+		Doctor doctor = findDoctorById.execute(doctorId);
 		
 		this.verifyIsDoctorNull(doctor);
 		
@@ -108,15 +108,15 @@ public class DoctorServiceImpl implements DoctorService {
 
     /**
      * Deactivates an existing doctor record by provided id
-     * @param id Long that represents the doctor's unique identifier
+     * @param doctorId Long that represents the doctor's unique identifier
 	 *  
 	 * @return The deactivated doctor if successful, or throws an
 	 *         EntityNotFoundException if it is non-existent.
 	 *  @throws EntityNotFoundException When doctor with id provided is non-existent 
 	 */
 	@Override
-	public Doctor deactivateDoctor(Long id) throws EntityNotFoundException {
-		Doctor doctor = findDoctorById.execute(id);
+	public Doctor deactivateDoctor(Long doctorId) throws EntityNotFoundException {
+		Doctor doctor = findDoctorById.execute(doctorId);
 
 		this.verifyIsDoctorNull(doctor);
 			

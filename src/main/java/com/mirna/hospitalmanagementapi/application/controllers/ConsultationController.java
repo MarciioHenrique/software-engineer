@@ -35,7 +35,7 @@ import jakarta.validation.Valid;
 public class ConsultationController {
 
 	@Autowired
-	private ConsultationService consultationService;
+	private ConsultationService service;
 	
 	/**
 	 * Post method to create a new Consultation object based on the provided DTO.
@@ -49,7 +49,7 @@ public class ConsultationController {
 	 */
 	@PostMapping
 	public ResponseEntity<Object> postConsultation(@RequestBody @Valid ConsultationDTO consultationDTO) throws ConsultationValidationException {
-		Consultation consultation = consultationService.addConsultation(consultationDTO);
+		Consultation consultation = service.addConsultation(consultationDTO);
 		
 		UriComponents uriComponents = UriComponentsBuilder
 				.fromUriString("/api/v1.0/consultations/{id}") 
@@ -64,14 +64,14 @@ public class ConsultationController {
 	/**
 	 * Get method to receive a Consultation record by the provided ID
 	 *
-	 * @param id A long representing the consultation's unique identifier
+	 * @param consultationId A long representing the consultation's unique identifier
 	 * 
 	 * @return A response entity containing the corresponding consultation if successful, or
 	 * a 400-level error if it is non-existent
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> getConsultation(@PathVariable Long id) {
-		Consultation consultation = consultationService.findConsultationById(id);
+	public ResponseEntity<Object> getConsultation(@PathVariable Long consultationId) {
+		Consultation consultation = service.findConsultationById(consultationId);
 		
 		return ResponseEntity.ok(consultation);
 	}
@@ -87,6 +87,6 @@ public class ConsultationController {
 	 */
 	@DeleteMapping
 	public ResponseEntity<Object> deleteConsultation(@RequestBody @Valid ConsultationCanceledDTO consultationCanceledDTO) {
-		return ResponseEntity.ok(consultationService.cancelConsultation(consultationCanceledDTO));
+		return ResponseEntity.ok(service.cancelConsultation(consultationCanceledDTO));
 	}
 }

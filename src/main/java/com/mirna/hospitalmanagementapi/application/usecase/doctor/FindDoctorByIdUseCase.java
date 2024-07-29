@@ -20,12 +20,12 @@ public class FindDoctorByIdUseCase {
 	/**
 	 * Executes the findById method from Doctor repository
 	 * 
-	 * @param id A long representing the doctor's unique identifier
+	 * @param doctorId A long representing the doctor's unique identifier
 	 * 
 	 * @return The corresponding doctor if successful, or null if it is non-existent
 	 *
 	 */
-	public Doctor execute(Long id) {
-		return doctorRepository.findById(id).orElse(null);
+	public Doctor execute(Long doctorId) {
+		return doctorRepository.findById(doctorId).orElse(null);
 	}
 }
